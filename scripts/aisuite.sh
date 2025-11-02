@@ -12,7 +12,7 @@ config_path=${AISUITE_CONFIG_PATH:-$HOME/.config/aisuite/tabs.conf}
 
 usage() {
     cat <<'USAGE'
-Usage: aisuite.sh [directory]
+Usage: ais [directory]
 
 Spawns configured Windows Terminal tabs rooted in the provided directory (defaults to current working directory).
 
@@ -23,7 +23,7 @@ Environment overrides:
   AISUITE_CONFIG_PATH   Override the tab configuration path (default ~/.config/aisuite/tabs.conf)
 
 Commands:
-  aisuite.sh config <action> [options]
+  ais config <action> [options]
       Manage tab definitions (list, add, remove).
 USAGE
 }
