@@ -80,11 +80,13 @@ else
 fi
 
 mkdir -p "$target_bin"
-
 ln -sfn "$launcher" "$link_path"
 
-printf 'Installed launcher:\n  source: %s\n  link:   %s\n' "$launcher" "$link_path"
-printf 'Ensure %s is on your PATH and reopen the shell if needed.\n' "$target_bin"
+printf 'Installed launcher as %s\n' "$link_path"
+
+if ! printf '%s' "$PATH" | tr ':' '\n' | grep -Fxq "$target_bin"; then
+    printf 'Tip: add %s to PATH (e.g., export PATH="%s:$PATH").\n' "$target_bin" "$target_bin"
+fi
 
 if [[ -n ${persisted_path:-} ]]; then
     printf 'Detected wt.exe at %s and added AISUITE_WT_PATH to ~/.bashrc. Run "source ~/.bashrc" to load it now.\n' "$persisted_path"
