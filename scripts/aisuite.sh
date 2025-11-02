@@ -8,9 +8,9 @@ set -euo pipefail
 
 usage() {
     cat <<'USAGE'
-Usage: aisuite.sh <directory>
+Usage: aisuite.sh [directory]
 
-Spawns three Windows Terminal tabs (Gemini, Open Code, Codex) rooted in <directory>.
+Spawns three Windows Terminal tabs (Gemini, Open Code, Codex) rooted in the provided directory (defaults to current working directory).
 
 Environment overrides:
   AISUITE_WT_PATH       Path to wt.exe (default /mnt/c/Windows/System32/wt.exe)
@@ -22,12 +22,7 @@ Environment overrides:
 USAGE
 }
 
-if [[ $# -lt 1 ]]; then
-    usage >&2
-    exit 1
-fi
-
-target_dir=$1
+target_dir=${1:-$PWD}
 shift || true
 
 if [[ ! -d $target_dir ]]; then

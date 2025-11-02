@@ -17,9 +17,10 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
 ## Usage
 
-Run the script with the directory you want each tab to use as its working directory:
+Run the script with the directory you want each tab to use as its working directory (defaults to the current directory when omitted):
 
 ```bash
+ais
 ais ~/projects/ai_suite_cli
 ```
 
