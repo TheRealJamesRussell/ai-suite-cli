@@ -78,4 +78,4 @@ The command opens one Windows Terminal tab per config entry. Each tab runs its c
 
 ## Scripts
 
-- `scripts/aisuite.sh`: Bash launcher for opening Gemini, Open Code, and Codex tabs within Windows Terminal.
+- `scripts/aisuite.sh`: Bash launcher plus config helpers for opening the configured Windows Terminal tabs.
