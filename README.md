@@ -8,18 +8,17 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
 ## Prerequisites
 
-- Windows 10/11 with Windows Subsystem for Linux (WSL) enabled and an Ubuntu distribution installed.
-- Windows Terminal installed from Microsoft Store or MSI (the installer will locate `wt.exe` automatically).
+- Windows 10/11 with Windows Subsystem for Linux (WSL) enabled and at least one Linux distribution installed (defaults assume the Windows Terminal profile is called `Ubuntu`; adjust if your profile name differs).
+- Windows Terminal already installed (Microsoft Store or MSI; the installer locates `wt.exe` automatically).
 - CLI entry points for your AI tools (`gemini`, `opencode`, `codex`) available on your WSL `PATH` or wrapped via environment overrides.
 
 ## Installation
 
-1. Install Windows Terminal (Microsoft Store or MSI). No manual path configuration is required for common setups.
-2. Run the installer to create the `ais` command (use `scripts/install.sh custom-name` to choose a different link). The installer auto-detects `wt.exe` via Windows' `where` command and persists the path to `~/.bashrc` when found:
+1. Run the installer to create the `ais` command (use `scripts/install.sh custom-name` to choose a different link). The installer auto-detects `wt.exe` via Windows' `where` command and persists the path to `~/.bashrc` when found:
 ```bash
 bash scripts/install.sh
 ```
-3. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal if prompted by the installer.
+2. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal if prompted by the installer.
 
 ### Uninstall
 
