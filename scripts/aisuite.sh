@@ -77,8 +77,8 @@ build_tab() {
     local run_cmd=$2
     local payload
 
-    # Construct the bash -lc payload to run inside the tab.
-    printf -v payload 'cd "%s" && %s; exec bash' "$linux_dir" "$run_cmd"
+    # Construct the bash -lc payload to run inside the tab without wt command separators.
+    printf -v payload 'cd "%s"\n%s\nexec bash' "$linux_dir" "$run_cmd"
 
     tabs+=( new-tab --title "$title" --profile "$profile" -- bash -lc "$payload" )
 }
