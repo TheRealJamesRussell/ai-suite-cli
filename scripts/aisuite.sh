@@ -10,15 +10,13 @@ usage() {
     cat <<'USAGE'
 Usage: aisuite.sh [directory]
 
-Spawns three Windows Terminal tabs (Gemini, Open Code, Codex) rooted in the provided directory (defaults to current working directory).
+Spawns configured Windows Terminal tabs rooted in the provided directory (defaults to current working directory).
 
 Environment overrides:
   AISUITE_WT_PATH       Path to wt.exe (default /mnt/c/Windows/System32/wt.exe)
   AISUITE_WINDOW_ID     Window identifier for wt's -w flag (default 0)
-  AISUITE_PROFILE       Windows Terminal profile name to use (default Ubuntu)
-  AISUITE_GEMINI_CMD    Command to run in the Gemini tab (default gemini)
-  AISUITE_OPEN_CODE_CMD Command to run in the Open Code tab (default opencode)
-  AISUITE_CODEX_CMD     Command to run in the Codex tab (default codex)
+  AISUITE_PROFILE       Default Windows Terminal profile when not provided per tab (default Ubuntu)
+  AISUITE_CONFIG_PATH   Override the tab configuration path (default ~/.config/aisuite/tabs.conf)
 USAGE
 }
 
@@ -36,6 +34,15 @@ if ! command -v realpath >/dev/null 2>&1; then
 fi
 
 linux_dir=$(realpath "$target_dir")
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+default_config="$script_dir/../config/tabs.conf"
+
+trim() {
+    local str=$1
+    str="${str#"${str%%[![:space:]]*}"}"
+    str="${str%"${str##*[![:space:]]}"}"
+    printf '%s' "$str"
+}
 
 detect_wt() {
     local win_path
@@ -55,11 +62,8 @@ detect_wt() {
 
 wt_path=${AISUITE_WT_PATH:-/mnt/c/Windows/System32/wt.exe}
 window_id=${AISUITE_WINDOW_ID:-0}
-profile=${AISUITE_PROFILE:-Ubuntu}
-
-gemini_cmd=${AISUITE_GEMINI_CMD:-"gemini"}
-open_code_cmd=${AISUITE_OPEN_CODE_CMD:-"opencode"}
-codex_cmd=${AISUITE_CODEX_CMD:-"codex"}
+default_profile=${AISUITE_PROFILE:-Ubuntu}
+config_path=${AISUITE_CONFIG_PATH:-$HOME/.config/aisuite/tabs.conf}
 
 if [[ ! -x $wt_path ]]; then
     if detected_path=$(detect_wt); then
@@ -75,6 +79,7 @@ fi
 build_tab() {
     local title=$1
     local run_cmd=$2
+    local tab_profile=${3:-$default_profile}
     local payload
 
     # Construct the bash -lc payload to run inside the tab without wt command separators.
@@ -83,13 +88,54 @@ build_tab() {
     if [[ ${#tabs[@]} -ne 0 ]]; then
         tabs+=( ';' )
     fi
-    tabs+=( new-tab --title "$title" --profile "$profile" -- bash -lic "$payload" )
+    tabs+=( new-tab --title "$title" --profile "$tab_profile" -- bash -lic "$payload" )
 }
 
 declare -a tabs=()
-build_tab "Gemini" "$gemini_cmd"
-build_tab "Open Code" "$open_code_cmd"
-build_tab "Codex" "$codex_cmd"
+config_tab_count=0
+
+load_tabs_from_file() {
+    local file=$1
+    local line
+
+    while IFS= read -r line || [[ -n $line ]]; do
+        line=${line%$'\r'}
+        if [[ -z ${line//[[:space:]]/} ]]; then
+            continue
+        fi
+        if [[ ${line:0:1} == '#' ]]; then
+            continue
+        fi
+
+        IFS='|' read -r raw_title raw_cmd raw_profile <<<"$line"
+        local title
+        local cmd
+        local tab_profile
+        title=$(trim "${raw_title:-}")
+        cmd=$(trim "${raw_cmd:-}")
+        tab_profile=$(trim "${raw_profile:-}")
+
+        if [[ -z $title || -z $cmd ]]; then
+            printf 'Warning: skipping malformed line in %s: %s\n' "$file" "$line" >&2
+            continue
+        fi
+
+        build_tab "$title" "$cmd" "$tab_profile"
+        config_tab_count=$((config_tab_count + 1))
+    done < "$file"
+}
+
+if [[ -f $config_path ]]; then
+    load_tabs_from_file "$config_path"
+elif [[ -f $default_config ]]; then
+    load_tabs_from_file "$default_config"
+fi
+
+if [[ $config_tab_count -eq 0 ]]; then
+    build_tab "Gemini" "gemini"
+    build_tab "Opencode" "opencode"
+    build_tab "Codex" "codex"
+fi
 
 command=("$wt_path" -w "$window_id")
 command+=("${tabs[@]}")
