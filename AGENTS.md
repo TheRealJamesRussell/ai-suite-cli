@@ -6,7 +6,8 @@
 - Add new utilities under `scripts/` and document them in `README.md` with a short description and example invocation.
 
 ## Build, Test, and Development Commands
-- `bash scripts/aisuite.sh <path>`: Opens three coordinated Windows Terminal tabs rooted at `<path>`, running the configured AI model commands.
+- `ais <path>`: Preferred entry point; opens three coordinated Windows Terminal tabs rooted at `<path>`, running the configured AI model commands.
+- `bash scripts/aisuite.sh <path>`: Direct invocation for debugging when the alias/symlink is unavailable.
 - No build pipeline or package manager is configured yet; keep tooling lightweight and script-driven.
 - After modifying the launcher, manually dry-run it from WSL to confirm each tab opens and executes the expected command without errors.
 
