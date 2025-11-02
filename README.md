@@ -1,6 +1,6 @@
 # AI Suite CLI
-
-Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
+### Who, what, the benefit
+Anyone who uses multiple different AI CLI in the Windows terminal can use this AI Suite CLI to speed up their process of opening multiple AI CLIS for a project because you can skip the tedium of manually opening a new tab and typing the AI CLI's command for every AI CLI you use.
 
 ## Prerequisites
 
