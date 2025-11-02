@@ -40,33 +40,41 @@ Delete the exported path marker from `~/.bashrc` (look for the `# AI Suite CLI w
    bash scripts/install.sh
    ```
 
+## Configure Tabs
+
+Tabs are defined in `~/.config/aisuite/tabs.conf`. Use the built-in helpers to create or adjust entries:
+
+```bash
+# Seed the common trio (each tab inherits the default Ubuntu profile unless specified)
+ais config add "Gemini" "gemini"
+ais config add "Opencode" "opencode"
+ais config add "Codex" "codex"
+
+# Inspect current entries
+ais config list
+
+# Remove an entry by title
+ais config remove "Codex"
+```
+
+Each line in the config file uses `Title|command|profile(optional)`. Omitting the profile keeps the Ubuntu default, making the launcher terminal-agnostic out of the box.
+
 ## Usage
 
-Run the script with the directory you want each tab to use as its working directory (defaults to the current directory when omitted):
+After configuring the tabs, launch them from any project directory (the working directory defaults to the current path):
 
 ```bash
 ais
 ais ~/projects/ai_suite_cli
 ```
 
-The script opens three tabs in the current Windows Terminal window (Gemini, Open Code, Codex). Each tab runs the corresponding command and leaves the shell open when finished.
+The command opens one Windows Terminal tab per config entry. Each tab runs its configured command and then drops to an interactive shell.
 
 ## Customization
 
-- Defaults: `Gemini` runs `gemini`, `Opencode` runs `opencode`, and `Codex` runs `codex`.
-- `AISUITE_PROFILE`: Switch to a different Windows Terminal profile (default `Ubuntu`).
+- `AISUITE_PROFILE`: Switch the default Windows Terminal profile to use when a tab does not specify one (default `Ubuntu`).
 - `AISUITE_WINDOW_ID`: Target a specific window ID instead of the current one (`0`).
-- `AISUITE_GEMINI_CMD`, `AISUITE_OPEN_CODE_CMD`, `AISUITE_CODEX_CMD`: Override the commands executed in each tab.
-- `AISUITE_WT_PATH`: Use a non-default path for `wt.exe`.
-
-Example of customizing commands:
-
-```bash
-AISUITE_GEMINI_CMD="poetry run gemini" \
-AISUITE_OPEN_CODE_CMD="npm run open-code" \
-AISUITE_CODEX_CMD="python codex.py" \
-ais ~/projects/ai_suite_cli
-```
+- `AISUITE_WT_PATH`: Point to a custom `wt.exe` location when auto-detection is insufficient.
 
 ## Scripts
 

@@ -6,9 +6,8 @@ set -euo pipefail
 # then drops to an interactive shell so you can keep working. The script shells
 # out to `wt.exe`, so it must be available via the configured path.
 
-script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-default_config="$script_dir/../config/tabs.conf"
 config_path=${AISUITE_CONFIG_PATH:-$HOME/.config/aisuite/tabs.conf}
+cli_name=$(basename "$0")
 
 usage() {
     cat <<'USAGE'
@@ -39,7 +38,7 @@ config_usage() {
     cat <<'USAGE'
 Config commands:
   config list
-      Show the tabs that will be launched (reads user config first, then default template).
+      Show the tabs that will be launched (reads the user config at ~/.config/aisuite/tabs.conf).
   config add <title> <command> [profile]
       Append a new tab entry to the user config file.
   config remove <title>
@@ -53,28 +52,11 @@ ensure_config_dir() {
     mkdir -p "$config_dir"
 }
 
-bootstrap_user_config() {
-    if [[ -f $config_path ]]; then
-        return
-    fi
-
-    ensure_config_dir
-
-    if [[ -f $default_config ]]; then
-        cp "$default_config" "$config_path"
-    else
-        : >"$config_path"
-    fi
-}
-
 config_list() {
-    local source=""
-    if [[ -f $config_path ]]; then
-        source=$config_path
-    elif [[ -f $default_config ]]; then
-        source=$default_config
-    else
-        printf 'No configuration file found. Add tabs with "%s config add".\n' "$(basename "$0")" >&2
+    local source="$config_path"
+    if [[ ! -f $source ]]; then
+        printf 'No configuration file found at %s.\n' "$source" >&2
+        printf 'Add tabs with: %s config add "Gemini" "gemini"\n' "$cli_name" >&2
         return 1
     fi
 
@@ -102,7 +84,7 @@ config_list() {
 
 config_add() {
     if [[ $# -lt 2 ]]; then
-        printf 'Usage: %s config add <title> <command> [profile]\n' "$(basename "$0")" >&2
+        printf 'Usage: %s config add <title> <command> [profile]\n' "$cli_name" >&2
         return 1
     fi
 
@@ -110,7 +92,7 @@ config_add() {
     local command=$2
     local profile=${3:-}
 
-    bootstrap_user_config
+    ensure_config_dir
 
     if [[ -n $profile ]]; then
         printf '%s|%s|%s\n' "$title" "$command" "$profile" >> "$config_path"
@@ -123,7 +105,7 @@ config_add() {
 
 config_remove() {
     if [[ $# -lt 1 ]]; then
-        printf 'Usage: %s config remove <title>\n' "$(basename "$0")" >&2
+        printf 'Usage: %s config remove <title>\n' "$cli_name" >&2
         return 1
     fi
 
@@ -307,16 +289,18 @@ load_tabs_from_file() {
     done < "$file"
 }
 
-if [[ -f $config_path ]]; then
-    load_tabs_from_file "$config_path"
-elif [[ -f $default_config ]]; then
-    load_tabs_from_file "$default_config"
+if [[ ! -f $config_path ]]; then
+    printf 'No tab configuration found at %s.\n' "$config_path" >&2
+    printf 'Add entries with: %s config add "Gemini" "gemini"\n' "$cli_name" >&2
+    exit 1
 fi
 
+load_tabs_from_file "$config_path"
+
 if [[ $config_tab_count -eq 0 ]]; then
-    build_tab "Gemini" "gemini"
-    build_tab "Opencode" "opencode"
-    build_tab "Codex" "codex"
+    printf 'Configuration file %s contains no tab entries.\n' "$config_path" >&2
+    printf 'Add entries with: %s config add "Gemini" "gemini"\n' "$cli_name" >&2
+    exit 1
 fi
 
 command=("$wt_path" -w "$window_id")
