@@ -12,8 +12,8 @@ Anyone who uses multiple different AI CLI in the Windows terminal can use this A
 
 1. Fetch the repository (choose a workspace directory of your preference):
 ```bash
-mkdir -p ~/workspaces
-cd ~/workspaces
+mkdir -p ~/ai-suite-cli
+cd ~/ai-suite-cli
 git clone https://github.com/TheRealJamesRussell/ai-suite-cli.git
 cd ai-suite-cli
 ```
