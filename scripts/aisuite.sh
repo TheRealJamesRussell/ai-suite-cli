@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Simple launcher for spawning Windows Terminal tabs from WSL.
+# Launches coordinated Windows Terminal tabs (Gemini, Open Code, Codex) from WSL.
+# Each tab shares the same working directory inside WSL and runs its own command,
+# then drops to an interactive shell so you can keep working. The script shells
+# out to `wt.exe`, so it must be available via the configured path.
 
 usage() {
     cat <<'USAGE'
