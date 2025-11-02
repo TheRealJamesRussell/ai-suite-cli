@@ -42,35 +42,31 @@ Delete the exported path marker from `~/.bashrc` (look for the `# AI Suite CLI w
    bash scripts/install.sh
    ```
 
-## Configure Tabs
-
-Tabs are defined in `~/.config/aisuite/tabs.conf`. Use the built-in helpers to create or adjust entries:
-
-```bash
-# Seed the common trio (each tab inherits the default Ubuntu profile unless specified)
-ais config add "Gemini" "gemini"
-ais config add "Opencode" "opencode"
-ais config add "Codex" "codex"
-
-# Inspect current entries
-ais config list
-
-# Remove an entry by title
-ais config remove "Codex"
-```
-
-Each line in the config file uses `Title|command|profile(optional)`. Omitting the profile keeps the Ubuntu default, making the launcher terminal-agnostic out of the box.
-
 ## Usage
 
-After configuring the tabs, launch them from any project directory (the working directory defaults to the current path):
+1. Configure the tabs you need (stored in `~/.config/aisuite/tabs.conf`). It’s usually easiest to do this with the built‑in helpers:
 
-```bash
-ais
-ais ~/projects/ai_suite_cli
-```
+   ```bash
+   # Add entries for each AI CLI you want to launch. The profile argument is optional; omit it to use the default Ubuntu profile.
+   ais config add "Gemini" "gemini"
+   ais config add "Opencode" "opencode"
+   ais config add "Codex" "codex"
 
-The command opens one Windows Terminal tab per config entry. Each tab runs its configured command and then drops to an interactive shell.
+   # Review or adjust the current setup
+   ais config list
+   ais config remove "Codex"    # removes the first matching entry
+   ```
+
+   Each line in the config file follows the pattern `Title|command|profile(optional)`. Leaving the profile blank keeps the launcher terminal‑agnostic by defaulting to the Ubuntu Windows Terminal profile.
+
+2. Launch the tabs from any project directory. The working directory defaults to your current location but you can pass an explicit target:
+
+   ```bash
+   ais                      # launches tabs using the current directory
+   ais ~/projects/my-app    # launches tabs rooted in the specified directory
+   ```
+
+   Each entry in the config opens its own Windows Terminal tab, runs the configured command, and then drops into an interactive shell.
 
 ## Customization
 
