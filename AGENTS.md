@@ -5,6 +5,11 @@
 - `scripts/`: Houses executable helpers. `scripts/aisuite.sh` is the primary launcher for Windows Terminal tabs.
 - Add new utilities under `scripts/` and document them in `README.md` with a short description and example invocation.
 
+## Environment Prerequisites
+- Contributors should work from Windows 10/11 with WSL enabled and Ubuntu installed (the launcher assumes a Bash-compatible WSL distro).
+- Windows Terminal must be installed; the tooling relies on `wt.exe` and auto-detects its location.
+- Ensure AI model CLIs (`gemini`, `opencode`, `codex`) are installed or aliased in the WSL environment before validating changes.
+
 ## Build, Test, and Development Commands
 - `bash scripts/install.sh [link-name]`: Sets up or refreshes the `ais` command by symlinking the launcher into `~/.local/bin` and auto-detecting `wt.exe` (persisting `AISUITE_WT_PATH` when successful).
 - `ais [path]`: Preferred entry point; opens three coordinated Windows Terminal tabs rooted at `<path>` (current directory if omitted), running `gemini`, `opencode`, and `codex` by default.

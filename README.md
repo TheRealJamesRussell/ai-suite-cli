@@ -6,6 +6,12 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
 - `scripts/`: Bash helpers for Windows Terminal tab orchestration.
 
+## Prerequisites
+
+- Windows 10/11 with Windows Subsystem for Linux (WSL) enabled and an Ubuntu distribution installed.
+- Windows Terminal installed from Microsoft Store or MSI (the installer will locate `wt.exe` automatically).
+- CLI entry points for your AI tools (`gemini`, `opencode`, `codex`) available on your WSL `PATH` or wrapped via environment overrides.
+
 ## Installation
 
 1. Install Windows Terminal (Microsoft Store or MSI). No manual path configuration is required for common setups.
