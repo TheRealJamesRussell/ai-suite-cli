@@ -56,12 +56,16 @@ else
     need_persist=${need_persist:-0}
 fi
 
+marker='# AI Suite CLI wt.exe path'
+
 if [[ ! -e $wt_path ]]; then
     printf 'Warning: wt.exe not found at %s\nSet AISUITE_WT_PATH before running the launcher.\n' "$wt_path" >&2
 else
+    existing_marker=$(grep -F "$marker" "$HOME/.bashrc" 2>/dev/null || true)
+
     if [[ ${need_persist:-0} -eq 1 ]]; then
         marker='# AI Suite CLI wt.exe path'
-        if ! grep -Fq "$marker" "$HOME/.bashrc" 2>/dev/null; then
+        if [[ -z $existing_marker ]]; then
             {
                 printf '\n%s\n' "$marker"
                 printf 'export AISUITE_WT_PATH=%q\n' "$wt_path"
@@ -70,6 +74,8 @@ else
         else
             already_persisted=1
         fi
+    elif [[ -n $existing_marker ]]; then
+        already_persisted=1
     fi
 fi
 
