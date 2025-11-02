@@ -35,9 +35,53 @@ fi
 
 chmod +x "$launcher"
 
+wt_path=${AISUITE_WT_PATH:-}
+persisted_path=""
+
+if [[ -z $wt_path && -x /usr/bin/wslpath ]]; then
+    win_loc=$(cmd.exe /c "where wt.exe" 2>/dev/null | tr -d '\r' || true)
+    if [[ -n $win_loc ]]; then
+        first_win_path=${win_loc%%$'\n'*}
+        detected_path=$(wslpath -a "$first_win_path" 2>/dev/null || true)
+        if [[ -n $detected_path && -e $detected_path ]]; then
+            wt_path=$detected_path
+            need_persist=1
+        fi
+    fi
+fi
+
+if [[ -z ${wt_path:-} ]]; then
+    wt_path=/mnt/c/Windows/System32/wt.exe
+else
+    need_persist=${need_persist:-0}
+fi
+
+if [[ ! -e $wt_path ]]; then
+    printf 'Warning: wt.exe not found at %s\nSet AISUITE_WT_PATH before running the launcher.\n' "$wt_path" >&2
+else
+    if [[ ${need_persist:-0} -eq 1 ]]; then
+        marker='# AI Suite CLI wt.exe path'
+        if ! grep -Fq "$marker" "$HOME/.bashrc" 2>/dev/null; then
+            {
+                printf '\n%s\n' "$marker"
+                printf 'export AISUITE_WT_PATH=%q\n' "$wt_path"
+            } >> "$HOME/.bashrc"
+            persisted_path=$wt_path
+        fi
+    fi
+fi
+
 mkdir -p "$target_bin"
 
 ln -sfn "$launcher" "$link_path"
 
 printf 'Installed launcher:\n  source: %s\n  link:   %s\n' "$launcher" "$link_path"
 printf 'Ensure %s is on your PATH and reopen the shell if needed.\n' "$target_bin"
+
+if [[ -n ${persisted_path:-} ]]; then
+    printf 'Detected wt.exe at %s and added AISUITE_WT_PATH to ~/.bashrc.\n' "$persisted_path"
+elif [[ -e $wt_path ]]; then
+    printf 'wt.exe detected at %s. Export AISUITE_WT_PATH if you want to persist it.\n' "$wt_path"
+else
+    printf 'Unable to locate wt.exe automatically; update AISUITE_WT_PATH manually.\n'
+fi

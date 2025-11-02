@@ -6,7 +6,7 @@
 - Add new utilities under `scripts/` and document them in `README.md` with a short description and example invocation.
 
 ## Build, Test, and Development Commands
-- `bash scripts/install.sh [link-name]`: Sets up or refreshes the `ais` command by symlinking the launcher into `~/.local/bin`.
+- `bash scripts/install.sh [link-name]`: Sets up or refreshes the `ais` command by symlinking the launcher into `~/.local/bin` and auto-detecting `wt.exe` (persisting `AISUITE_WT_PATH` when successful).
 - `ais <path>`: Preferred entry point; opens three coordinated Windows Terminal tabs rooted at `<path>`, running `gemini`, `opencode`, and `codex` by default.
 - `bash scripts/aisuite.sh <path>`: Direct invocation for debugging when the alias/symlink is unavailable.
 - No build pipeline or package manager is configured yet; keep tooling lightweight and script-driven.
