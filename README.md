@@ -10,10 +10,29 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
 1. Install Windows Terminal (Microsoft Store or MSI). No manual path configuration is required for common setups.
 2. Run the installer to create the `ais` command (use `scripts/install.sh custom-name` to choose a different link). The installer auto-detects `wt.exe` via Windows' `where` command and persists the path to `~/.bashrc` when found:
+```bash
+bash scripts/install.sh
+```
+3. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal if prompted by the installer.
+
+### Uninstall
+
+Remove the symlink (adjust if you chose a custom link-name):
+```bash
+rm -f ~/.local/bin/ais
+```
+Delete the exported path marker from `~/.bashrc` (look for the `# AI Suite CLI wt.exe path` section) if you no longer need it.
+
+### Updating
+
+1. Pull changes from GitHub:
+   ```bash
+   git pull origin master
+   ```
+2. Re-run the installer to refresh the symlink and ensure any new detection logic applies:
    ```bash
    bash scripts/install.sh
    ```
-3. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal if prompted by the installer.
 
 ## Usage
 
