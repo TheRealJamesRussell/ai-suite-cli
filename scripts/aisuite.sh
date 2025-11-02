@@ -86,7 +86,7 @@ build_tab() {
     tabs+=( new-tab --title "$title" --profile "$profile" -- bash -lic "$payload" )
 }
 
-declare -a tabs
+declare -a tabs=()
 build_tab "Gemini" "$gemini_cmd"
 build_tab "Open Code" "$open_code_cmd"
 build_tab "Codex" "$codex_cmd"
