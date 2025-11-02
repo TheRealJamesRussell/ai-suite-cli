@@ -9,17 +9,11 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 ## Installation
 
 1. Ensure Windows Terminal is installed and `wt.exe` is available at the default location (`/mnt/c/Windows/System32/wt.exe`) or export `AISUITE_WT_PATH` to point to it.
-2. Mark the launcher executable:
+2. Run the installer to create the `ais` command (use `scripts/install.sh custom-name` to choose a different link):
    ```bash
-   chmod +x scripts/aisuite.sh
+   bash scripts/install.sh
    ```
-3. Add it to your shell PATH or create an alias:
-   ```bash
-   mkdir -p ~/.local/bin
-   ln -s ~/ai_suite/scripts/aisuite.sh ~/.local/bin/ais
-   # or: echo "alias ais=\"$HOME/ai_suite/scripts/aisuite.sh\"" >> ~/.bashrc
-   ```
-4. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal.
+3. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal to pick up PATH changes, if required.
 
 ## Usage
 
