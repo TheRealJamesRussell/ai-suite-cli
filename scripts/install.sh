@@ -67,6 +67,8 @@ else
                 printf 'export AISUITE_WT_PATH=%q\n' "$wt_path"
             } >> "$HOME/.bashrc"
             persisted_path=$wt_path
+        else
+            already_persisted=1
         fi
     fi
 fi
@@ -79,9 +81,11 @@ printf 'Installed launcher:\n  source: %s\n  link:   %s\n' "$launcher" "$link_pa
 printf 'Ensure %s is on your PATH and reopen the shell if needed.\n' "$target_bin"
 
 if [[ -n ${persisted_path:-} ]]; then
-    printf 'Detected wt.exe at %s and added AISUITE_WT_PATH to ~/.bashrc.\n' "$persisted_path"
+    printf 'Detected wt.exe at %s and added AISUITE_WT_PATH to ~/.bashrc. Run "source ~/.bashrc" to load it now.\n' "$persisted_path"
+elif [[ -n ${already_persisted:-} ]]; then
+    printf 'wt.exe detected at %s (existing AISUITE_WT_PATH entry found in ~/.bashrc).\n' "$wt_path"
 elif [[ -e $wt_path ]]; then
-    printf 'wt.exe detected at %s. Export AISUITE_WT_PATH if you want to persist it.\n' "$wt_path"
+    printf 'wt.exe detected at %s. Consider exporting AISUITE_WT_PATH to persist it.\n' "$wt_path"
 else
     printf 'Unable to locate wt.exe automatically; update AISUITE_WT_PATH manually.\n'
 fi

@@ -37,6 +37,22 @@ fi
 
 linux_dir=$(realpath "$target_dir")
 
+detect_wt() {
+    local win_path
+    win_path=$(cmd.exe /c "where wt.exe" 2>/dev/null | tr -d '\r' || true)
+    if [[ -z $win_path ]]; then
+        return 1
+    fi
+    local first_win_path=${win_path%%$'\n'*}
+    local wsl_path
+    wsl_path=$(wslpath -a "$first_win_path" 2>/dev/null || true)
+    if [[ -n $wsl_path ]]; then
+        printf '%s\n' "$wsl_path"
+        return 0
+    fi
+    return 1
+}
+
 wt_path=${AISUITE_WT_PATH:-/mnt/c/Windows/System32/wt.exe}
 window_id=${AISUITE_WINDOW_ID:-0}
 profile=${AISUITE_PROFILE:-Ubuntu}
@@ -46,7 +62,13 @@ open_code_cmd=${AISUITE_OPEN_CODE_CMD:-"opencode"}
 codex_cmd=${AISUITE_CODEX_CMD:-"codex"}
 
 if [[ ! -x $wt_path ]]; then
-    printf 'Error: wt executable not found at %s\n' "$wt_path" >&2
+    if detected_path=$(detect_wt); then
+        wt_path=$detected_path
+    fi
+fi
+
+if [[ ! -x $wt_path ]]; then
+    printf 'Error: wt executable not found. Checked %s and Windows search results; set AISUITE_WT_PATH explicitly.\n' "$wt_path" >&2
     exit 1
 fi
 
