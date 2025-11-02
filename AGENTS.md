@@ -22,6 +22,7 @@
 
 ## Commit & Pull Request Guidelines
 - Use concise, sentence-case commit messages that summarize intent (e.g., “Document aisuite installation and usage”).
-- Each change should update relevant docs (README, AGENTS) alongside scripts to keep guidance in sync.
+- Each change should update relevant docs (README, AGENTS) alongside scripts to keep guidance in sync; document any new behavior before merging.
 - Pull requests should include: purpose summary, manual test notes (commands run and results), and any configuration prerequisites for reviewers.
 - Reference tracking issues when available and request review from teammates familiar with Windows Terminal + WSL workflows.
+- Make commits immediately after each discrete change (code or docs) so the history stays granular and reviewers can track progress.
