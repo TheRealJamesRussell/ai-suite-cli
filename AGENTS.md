@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `README.md`: High-level overview, installation, and usage notes.
+- `README.md`: High-level overview, installation, and usage notes for AI Suite CLI.
 - `scripts/`: Houses executable helpers. `scripts/aisuite.sh` is the primary launcher for Windows Terminal tabs.
 - Add new utilities under `scripts/` and document them in `README.md` with a short description and example invocation.
 

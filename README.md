@@ -1,4 +1,4 @@
-# ai_suite
+# AI Suite CLI
 
 Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
@@ -20,7 +20,7 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 Run the script with the directory you want each tab to use as its working directory:
 
 ```bash
-ais ~/projects/ai_suite
+ais ~/projects/ai_suite_cli
 ```
 
 The script opens three tabs in the current Windows Terminal window (Gemini, Open Code, Codex). Each tab runs the corresponding command and leaves the shell open when finished.
@@ -38,7 +38,7 @@ Example of customizing commands:
 AISUITE_GEMINI_CMD="poetry run gemini" \
 AISUITE_OPEN_CODE_CMD="npm run open-code" \
 AISUITE_CODEX_CMD="python codex.py" \
-ais ~/projects/ai_suite
+ais ~/projects/ai_suite_cli
 ```
 
 ## Scripts

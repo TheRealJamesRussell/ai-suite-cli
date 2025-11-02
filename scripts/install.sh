@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Installer helper for the ai_suite tooling.
+# Installer helper for the AI Suite CLI tooling.
 # Creates/updates a symlink in ~/.local/bin pointing to scripts/aisuite.sh.
 
 usage() {
