@@ -14,11 +14,18 @@ Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
 ## Installation
 
-1. Run the installer to create the `ais` command (use `scripts/install.sh custom-name` to choose a different link). The installer auto-detects `wt.exe` via Windows' `where` command and persists the path to `~/.bashrc` when found:
+1. Fetch the repository (choose a workspace directory of your preference):
+```bash
+mkdir -p ~/workspaces
+cd ~/workspaces
+git clone https://github.com/TheRealJamesRussell/ai-suite-cli.git
+cd ai-suite-cli
+```
+2. Run the installer to create the `ais` command (use `scripts/install.sh custom-name` to choose a different link). The installer auto-detects `wt.exe` via Windows' `where` command and persists the path to `~/.bashrc` when found:
 ```bash
 bash scripts/install.sh
 ```
-2. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal if prompted by the installer.
+3. Reload your shell configuration (`source ~/.bashrc`) or open a new WSL terminal if prompted by the installer.
 
 ### Uninstall
 
