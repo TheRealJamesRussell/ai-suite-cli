@@ -2,10 +2,6 @@
 
 Scripts and helpers for launching coordinated Windows Terminal tabs from WSL.
 
-## Structure
-
-- `scripts/`: Bash helpers for Windows Terminal tab orchestration.
-
 ## Prerequisites
 
 - Windows 10/11 with Windows Subsystem for Linux (WSL) enabled and at least one Linux distribution installed (defaults assume the Windows Terminal profile is called `Ubuntu`; adjust if your profile name differs).
