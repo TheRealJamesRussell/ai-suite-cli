@@ -89,7 +89,7 @@ if ! printf '%s' "$PATH" | tr ':' '\n' | grep -Fxq "$target_bin"; then
 fi
 
 if [[ -n ${persisted_path:-} ]]; then
-    printf 'Detected wt.exe at %s and added AISUITE_WT_PATH to ~/.bashrc. Run "source ~/.bashrc" to load it now.\n' "$persisted_path"
+    printf 'Detected wt.exe at %s and appended AISUITE_WT_PATH to ~/.bashrc. Run "source ~/.bashrc" in your current shell to load it now.\n' "$persisted_path"
 elif [[ -n ${already_persisted:-} ]]; then
     printf 'wt.exe detected at %s (existing AISUITE_WT_PATH entry found in ~/.bashrc).\n' "$wt_path"
 elif [[ -e $wt_path ]]; then
