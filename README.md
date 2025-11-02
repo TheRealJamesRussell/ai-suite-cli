@@ -47,7 +47,7 @@ The script opens three tabs in the current Windows Terminal window (Gemini, Open
 
 ## Customization
 
-- Defaults: `Gemini` runs `gemini`, `Open Code` runs `opencode`, and `Codex` runs `codex`.
+- Defaults: `Gemini` runs `gemini`, `Opencode` runs `opencode`, and `Codex` runs `codex`.
 - `AISUITE_PROFILE`: Switch to a different Windows Terminal profile (default `Ubuntu`).
 - `AISUITE_WINDOW_ID`: Target a specific window ID instead of the current one (`0`).
 - `AISUITE_GEMINI_CMD`, `AISUITE_OPEN_CODE_CMD`, `AISUITE_CODEX_CMD`: Override the commands executed in each tab.
